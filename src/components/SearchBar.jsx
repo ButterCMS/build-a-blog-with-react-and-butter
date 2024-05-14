@@ -1,12 +1,11 @@
-import React from 'react';
-import '../index.css';
-
+import React from "react";
+import "../index.css";
 const SearchBar = ({ formSubmit, value, handleSearchKey, clearSearch }) => (
-  <div className='searchBar-wrap'>
+  <div className="searchBar-wrap">
     <form onSubmit={formSubmit}>
       <input
-        type='text'
-        placeholder='Search By Category'
+        type="text"
+        placeholder="Search By Category"
         value={value}
         onChange={handleSearchKey}
       />
@@ -15,5 +14,4 @@ const SearchBar = ({ formSubmit, value, handleSearchKey, clearSearch }) => (
     </form>
   </div>
 );
-
 export default SearchBar;

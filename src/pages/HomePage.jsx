@@ -3,16 +3,15 @@ import EmptyList from "../components/EmptyList";
 import BlogList from "../components/BlogList";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
-import { blogList, CreatePost } from "../config/Api.js";
+import { blogList } from "../config/Api";
 
 const HomePage = ({ data }) => {
   const [blogs, setBlogs] = useState([]);
   const [searchKey, setSearchKey] = useState("");
-  
+
   // get content from buttercms
   useEffect(() => {
     blogList().then((res) => {
-      console.log(res);
       setBlogs(res);
     });
   }, []);
@@ -35,7 +34,7 @@ const HomePage = ({ data }) => {
   const handleClearSearch = () => {
     blogList().then((res) => {
       setBlogs(res);
-    })
+    });
     setSearchKey("");
   };
 
@@ -48,8 +47,6 @@ const HomePage = ({ data }) => {
     <div>
       {/* Page Header */}
       <Header />
-      
-
       {/* Search Bar */}
       <SearchBar
         value={searchKey}
@@ -57,15 +54,12 @@ const HomePage = ({ data }) => {
         formSubmit={handleSearchBar}
         handleSearchKey={(e) => setSearchKey(e.target.value)}
       />
-
       {/* Blog List & Empty View */}
       {!blogs.length ? (
         <EmptyList />
       ) : (
         <BlogList blogs={blogs} content={BlogContent} />
       )}
-
-      
     </div>
   );
 };
