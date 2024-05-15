@@ -7,12 +7,14 @@ import { blogList } from "../config/Api";
 
 const HomePage = ({ data }) => {
   const [blogs, setBlogs] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [searchKey, setSearchKey] = useState("");
 
   // get content from buttercms
   useEffect(() => {
     blogList().then((res) => {
       setBlogs(res);
+      setFilteredBlogs(res);
     });
   }, []);
 
@@ -21,15 +23,15 @@ const HomePage = ({ data }) => {
     e.preventDefault();
     handleSearchResults();
   };
-
   // Search for blog by category
   const handleSearchResults = () => {
     const filtered = blogs.filter((blog) => {
-      return blog.tags[0].name.toLowerCase().includes(searchKey.toLowerCase());
+      return blog.tags[0].name
+        .toLowerCase()
+        .includes(searchKey.toLowerCase().trim());
     });
-    setBlogs(filtered);
+    setFilteredBlogs(filtered);
   };
-
   // Clear search and show all blogs
   const handleClearSearch = () => {
     blogList().then((res) => {
@@ -42,7 +44,6 @@ const HomePage = ({ data }) => {
   const BlogContent = (id) => {
     data(id);
   };
-
   return (
     <div>
       {/* Page Header */}
@@ -55,13 +56,12 @@ const HomePage = ({ data }) => {
         handleSearchKey={(e) => setSearchKey(e.target.value)}
       />
       {/* Blog List & Empty View */}
-      {!blogs.length ? (
+      {!filteredBlogs.length ? (
         <EmptyList />
       ) : (
-        <BlogList blogs={blogs} content={BlogContent} />
+        <BlogList blogs={filteredBlogs} content={BlogContent} />
       )}
     </div>
   );
 };
-
 export default HomePage;
